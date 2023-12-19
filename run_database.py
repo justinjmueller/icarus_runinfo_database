@@ -6,6 +6,7 @@ from tools import command, update_triggerlog, update_triggerdata, update_runinfo
 triggerlog_directory = '/icarus/data/users/mueller/logs/trigger_logs/'
 daqinterface_log = '/icarus/data/users/mueller/logs/DAQInterface_partition1.log'
 epics_conditions = '/icarus/data/users/mueller/logs/epics_runinfo.csv'
+configurations = '/icarus/data/users/mueller/logs/configurations.csv'
 
 def main():
     # Configure logging.
@@ -33,7 +34,7 @@ def main():
     # Update tables.
     update_triggerlog(conn, triggerlog_directory)
     update_triggerdata(conn, triggerlog_directory)
-    update_runinfo(conn, daqinterface_log, epics_conditions)
+    update_runinfo(conn, daqinterface_log, configurations, epics_conditions)
 
 if __name__ == '__main__':
     main()

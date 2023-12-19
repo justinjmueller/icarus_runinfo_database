@@ -5,7 +5,7 @@ from glob import glob
 
 from tools import parse_daqinterface_log, parse_trigger_log, command
 
-def update_runinfo(conn, daqinterface_log, epics_conditions):
+def update_runinfo(conn, daqinterface_log, configurations, epics_conditions):
     """
     Populate and update the run information table. Run start and stop times
     are retrieved from the DAQ Interface log file. 
@@ -16,6 +16,8 @@ def update_runinfo(conn, daqinterface_log, epics_conditions):
         The SQLite connection handle.
     daqinterface_log: str
         The full path of the DAQ interface log.
+    configurations: str
+        The full path of the configurations CSV file.
     epics_conditions: str
         The full path of the EPICS conditions file.
 
@@ -38,7 +40,7 @@ def update_runinfo(conn, daqinterface_log, epics_conditions):
     command(curs, 'sql/update_runinfo_single.sql', (latest_update[1],latest_update[2],latest_update[0]))
     conn.commit()
 
-    config_df = pd.read_csv('../logs/configurations.csv', header=None)
+    config_df = pd.read_csv(configurations, header=None)
     runs = list(config_df[0])
     configs = list(config_df[1])
     tpc, pmt, crt = list(config_df[2]), list(config_df[3]), list(config_df[4])
