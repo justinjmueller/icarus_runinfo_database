@@ -3,8 +3,7 @@ import os
 import pandas as pd
 from glob import glob
 
-from parsers import parse_daqinterface_log, parse_trigger_log
-from database_tools import command
+from tools import parse_daqinterface_log, parse_trigger_log, command
 
 def update_runinfo(conn, daqinterface_log, epics_conditions):
     """
@@ -64,26 +63,6 @@ def update_runinfo(conn, daqinterface_log, epics_conditions):
                   int(epics_df['run'].iloc[i])) for i in range(len(epics_df)) if epics_df['run'][i] not in runs]
     command(curs, 'sql/update_runinfo_epics.sql', ins_epics)
     conn.commit()
-
-    command(curs, 'sql/select_runinfo_allrange.sql', (8460,9200))
-    dump_res = curs.fetchall()
-    dump_df = {'run': list(), 'start_time': list(), 'end_time': list(),
-               'cathodehv': list(), 'wbps_eind1': list(), 'wbps_eind2': list(),
-               'wbps_ecoll': list(), 'wbps_wind1': list(), 'wbps_wind2': list(),
-               'wbps_wcoll': list(), 'configuration': list()}
-    for d in dump_res:
-        dump_df['run'].append(d[0])
-        dump_df['start_time'].append(d[1])
-        dump_df['end_time'].append(d[2])
-        dump_df['cathodehv'].append(d[4])
-        dump_df['wbps_eind1'].append(d[5])
-        dump_df['wbps_eind2'].append(d[6])
-        dump_df['wbps_ecoll'].append(d[7])
-        dump_df['wbps_wind1'].append(d[8])
-        dump_df['wbps_wind2'].append(d[9])
-        dump_df['wbps_wcoll'].append(d[10])
-        dump_df['configuration'].append(d[3])
-    pd.DataFrame(dump_df).astype({'run': int}).to_csv('runcon.csv', index=False)
 
 def update_triggerdata(conn, triggerlog_directory):
     """
