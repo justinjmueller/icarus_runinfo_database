@@ -56,3 +56,4 @@ csv/*
 .vscode/*
 *.dSYM
 *.db
+*.log
