@@ -3,10 +3,10 @@ import logging
 import sys
 from tools import command, update_triggerlog, update_triggerdata, update_runinfo
 
-triggerlog_directory = '/icarus/data/users/mueller/logs/trigger_logs/'
-daqinterface_log = '/icarus/data/users/mueller/logs/DAQInterface_partition1.log'
-epics_conditions = '/icarus/data/users/mueller/logs/epics_runinfo.csv'
-configurations = '/icarus/data/users/mueller/logs/configurations.csv'
+triggerlog_directory = '/exp/icarus/data/users/mueller/logs/trigger_logs/'
+daqinterface_log = '/exp/icarus/data/users/mueller/logs/DAQInterface_partition1.log'
+epics_conditions = '/exp/icarus/data/users/mueller/logs/epics_runinfo.csv'
+configurations = '/exp/icarus/data/users/mueller/logs/configurations.csv'
 
 def main():
     # Configure logging.
