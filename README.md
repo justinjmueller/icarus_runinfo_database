@@ -50,6 +50,8 @@ The `triggerdata` table encapsulates all information that exists at the per-trig
 * `cryo2_w_conn_2` (text) - 64-bit word with the status of the pairs of PMT discriminated signals (LVDS) for the WW wall.
 * `cryo1_east_counts` (integer) - Counters of other activity in coincidence with the gate (other potential global triggers in the event) for the East cryostat.
 * `cryo2_west_counts` (integer) - Counters of other activity in coincidence with the gate (other potential global triggers in the event) for the Wast cryostat.
+* `mj_adder_source_east` (integer) - Enumeration of trigger source in the East cryostat, specifically adder vs. majority (1: adders, 2: majority, 7: both)
+* `mj_adder_source_west` (integer) - Enumeration of trigger source in the West cryostat, specifically adder vs. majority (1: adders, 2: majority, 7: both)
 
 ## Trigger Logs
 The `triggerlog` table contains metadata associated with each trigger log file. Log files may be incomplete at the time of transfer, so it is necessary to keep track of the size on disk to reprocess the log file if it has been updated.
