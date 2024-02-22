@@ -98,7 +98,10 @@ def update_triggerdata(conn, triggerlog_directory):
         triggers = [x for x in triggers if (x[0], x[3]) not in existing_triggers]
         if len(existing_triggers) != 0 and len(triggers) != 0:
             logging.info(f'Found {len(triggers)} new triggers for Run {run}.')
-        command(curs, 'sql/insert_triggerdata_standard.sql', triggers)
+        if len(triggers[0]) == 30:
+            triggers = [x+(-1,) for x in triggers]
+        version = 2 if len(triggers[0]) == 31 else 1
+        command(curs, f'sql/insert_triggerdata_standard_v{version}.sql', triggers)
         command(curs, 'sql/update_triggerlog_processed.sql', (r[0],))
         conn.commit()
 

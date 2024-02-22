@@ -27,5 +27,7 @@ cryo1_e_conn_2 text NOT NULL,
 cryo2_w_conn_0 text NOT NULL,
 cryo2_w_conn_2 text NOT NULL,
 cryo1_east_counts integer NOT NULL,
-cryo2_west_counts integer NOT NULL
+cryo2_west_counts integer NOT NULL,
+mj_adder_source_east integer NOT NULL DEFAULT -1,
+mj_adder_source_west integer NOT NULL DEFAULT -1
 );

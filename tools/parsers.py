@@ -102,7 +102,8 @@ def parse_trigger_log(log_name, run):
                   gate_id_BNB=19, gate_id_NuMI=21, gate_id_BNBOff=23, gate_id_NuMIOff=25,
                   beam_seconds=30, beam_nanoseconds=31, trigger_type=33, trigger_source=35,
                   cryo1_e_conn_0=37, cryo1_e_conn_2=39, cryo2_w_conn_0=41, cryo2_w_conn_2=43,
-                  cryo1_east_counts=45, cryo2_west_counts=47)
+                  cryo1_east_counts=45, cryo2_west_counts=47,
+                  mj_adder_source_east=49, mj_adder_source_west=51)
     data = dict(zip(list(fields.values()), [list() for i in range(len(fields))]))
 
     lines = open(log_name, 'r').readlines()
@@ -114,14 +115,22 @@ def parse_trigger_log(log_name, run):
     results = list()
     for r in range(len(strings)):
         res = strings[r][len('string received:: '):].replace(' ', '').split(',')
-        for k in data.keys():
-            if len(res) == 48:
+        for ki, k in enumerate(data.keys()):
+            if len(res) == 48 and ki < len(data.keys()) - 2:
                 data[k].append(res[k])
-            elif len(res) > 1:
+            elif len(res) == 50 and ki < len(data.keys()) - 1:
+                data[k].append(res[k])
+            elif len(res) == 52:
+                data[k].append(res[k])
+            elif len(res) > 1 and (len(res) != 48 and len(res) != 50 and len(res) != 52):
                 count += 1
-            if(len(res) != 48 and len(res) > 1 and isfirst):
-                isfirst=False
+                if isfirst:
+                    isfirst=False
         if len(res) == 48:
+            results.append(tuple([run]+[data[k][-1] for k in list(data.keys())[:-2]]))
+        elif len(res) == 50:
+            results.append(tuple([run]+[data[k][-1] for k in list(data.keys())[:-1]]))
+        elif len(res) == 52:
             results.append(tuple([run]+[data[k][-1] for k in data.keys()]))
 
     if count > 0:
